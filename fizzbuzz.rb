@@ -2,21 +2,35 @@
 # coding: utf-8
 
 class FizzBuzz
-  def countup(num)
-    num.times {|cnt|
-      puts matching_fizzbuzz(cnt + 1)
-    }
+  def map_fizzbuzz(max)
+    ary = (1..max).map {|n| fizzbuzz(n) }
   end
 
-  def matching_fizzbuzz(num)
-    if (0 == num % 3) && (0 == num % 5)
-      match = "FizzBuzz"
-    elsif 0 == num % 3
-      match = "Fizz"
-    elsif 0 == num % 5
-      match = "Buzz"
+  def console_print
+    begin
+      max = check_arg_int
+      ary = map_fizzbuzz(max)
+      ary.each {|i| puts i }
+    rescue
+      raise 
+    end
+  end
+
+  def fizzbuzz(num)
+    case
+    when num%5 == 0 && num%3 == 0; "FizzBuzz"
+    when num%3 == 0;               "Fizz"
+    when num%5 == 0;               "Buzz"
+    else num.to_s
+    end
+  end
+
+  def check_arg_int
+    if ARGV[0].nil? || ARGV[0] == "0"
+      raise "need an argument of integer"
     else
-      num.to_s
+      Integer(ARGV[0])
     end
   end
 end
+FizzBuzz.new.console_print
